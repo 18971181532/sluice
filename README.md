@@ -352,7 +352,7 @@ what the program printed rather than by an assertion:
 
 ## Tests
 
-210 cases, 1.3 seconds, no dependencies:
+210 cases, 1.2 seconds, no dependencies:
 
 | file | cases | what it pins down |
 | --- | ---: | --- |
