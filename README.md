@@ -3,9 +3,10 @@
 **A packet-level TCP laboratory in pure Python: three congestion controls, one wire, and a ledger that checks every byte as it lands.**
 
 <p align="left">
+  <a href="https://github.com/18971181532/sluice/actions/workflows/tests.yml"><img alt="tests" src="https://github.com/18971181532/sluice/actions/workflows/tests.yml/badge.svg"></a>
   <img alt="Python" src="https://img.shields.io/badge/python-3.10%2B-blue">
   <img alt="dependencies" src="https://img.shields.io/badge/dependencies-none-brightgreen">
-  <img alt="tests" src="https://img.shields.io/badge/tests-210-brightgreen">
+  <img alt="cases" src="https://img.shields.io/badge/cases-210-brightgreen">
   <img alt="licence" src="https://img.shields.io/badge/licence-MIT-green">
 </p>
 
