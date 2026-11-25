@@ -69,11 +69,11 @@ jobs:
       - name: Install the wheel into a clean environment
         shell: bash
         run: |
-          python -m venv /tmp/sluice-venv
-          if [ -f /tmp/sluice-venv/bin/python ]; then
-            BIN=/tmp/sluice-venv/bin
+          python -m venv venv-ci
+          if [ -f venv-ci/bin/python ]; then
+            BIN=venv-ci/bin
           else
-            BIN=/tmp/sluice-venv/Scripts
+            BIN=venv-ci/Scripts
           fi
           "$BIN/python" -m pip install --quiet --upgrade pip
           "$BIN/python" -m pip install --quiet dist/*.whl
@@ -81,5 +81,5 @@ jobs:
           "$BIN/sluice" --version
           "$BIN/sluice" run --seconds 1
           "$BIN/sluice" demo tail
-          "$BIN/sluice" bloat --seconds 2 --json > /tmp/bloat.json
-          "$BIN/python" -c "import json; d=json.load(open('/tmp/bloat.json')); print('records', len(d), sorted(d[0]))"
+          "$BIN/sluice" bloat --seconds 2 --json > bloat.json
+          "$BIN/python" -c "import json; d=json.load(open('bloat.json')); print('records', len(d), sorted(d[0]))"

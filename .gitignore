@@ -5,6 +5,7 @@ build/
 dist/
 .venv/
 venv/
+venv-ci/
 .pytest_cache/
 *.db
 .coverage
