@@ -1,0 +1,85 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / py${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    env:
+      # The tables and charts are drawn with box characters; the Windows
+      # runners would otherwise print them in a legacy code page and fail.
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: "1"
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Show interpreter
+        run: python -c "import sys, platform; print(sys.version); print(platform.platform())"
+
+      - name: Run the test suite
+        run: python run_tests.py
+
+      - name: Run every demonstration
+        run: python run_demos.py
+
+      - name: Run the CLI from the checkout
+        run: |
+          python run.py --version
+          python run.py loss --all --seconds 3
+          python run.py fair --flows 2 --seeds 0 --seconds 3
+          python run.py tail
+          python run.py wrap
+
+      - name: Run the examples
+        run: |
+          python examples/walkthrough.py
+          python examples/sweep.py
+          python examples/chart.py
+
+      - name: Determinism
+        shell: bash
+        run: |
+          python run.py bloat --json > first.json
+          python run.py bloat --json > second.json
+          diff first.json second.json
+
+      - name: Build a wheel
+        run: python -m pip wheel . --no-deps -w dist
+
+      - name: Install the wheel into a clean environment
+        shell: bash
+        run: |
+          python -m venv /tmp/sluice-venv
+          if [ -f /tmp/sluice-venv/bin/python ]; then
+            BIN=/tmp/sluice-venv/bin
+          else
+            BIN=/tmp/sluice-venv/Scripts
+          fi
+          "$BIN/python" -m pip install --quiet --upgrade pip
+          "$BIN/python" -m pip install --quiet dist/*.whl
+          "$BIN/python" -c "import sluice; print('imported', sluice.__version__)"
+          "$BIN/sluice" --version
+          "$BIN/sluice" run --seconds 1
+          "$BIN/sluice" demo tail
+          "$BIN/sluice" bloat --seconds 2 --json > /tmp/bloat.json
+          "$BIN/python" -c "import json; d=json.load(open('/tmp/bloat.json')); print('records', len(d), sorted(d[0]))"

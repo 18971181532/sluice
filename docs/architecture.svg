@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="960" height="560" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="960" height="560" fill="#ffffff"/>
+
+  <text x="40" y="42" font-size="23" font-weight="600" fill="#1f2328">sluice — one connection, checked three ways</text>
+  <text x="40" y="68" font-size="13.5" fill="#57606a">twenty-byte segments · a dumbbell path · a ledger that compares every byte with the source</text>
+
+  <!-- sender -->
+  <rect x="40" y="104" width="176" height="118" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
+  <text x="56" y="128" font-size="14.5" font-weight="600" fill="#1f2328">sender</text>
+  <text x="56" y="150" font-size="12.5" fill="#57606a">cwnd · ssthresh</text>
+  <text x="56" y="169" font-size="12.5" fill="#57606a">unacked segments</text>
+  <text x="56" y="188" font-size="12.5" fill="#57606a">RTO timer, Karn's rule</text>
+  <text x="56" y="207" font-size="12.5" fill="#57606a">NewReno recovery</text>
+
+  <!-- access link 1 -->
+  <rect x="248" y="128" width="112" height="70" rx="6" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="304" y="152" font-size="12.5" fill="#1f2328" text-anchor="middle">access link</text>
+  <text x="304" y="172" font-size="11.5" fill="#57606a" text-anchor="middle">50× bottleneck</text>
+  <text x="304" y="188" font-size="11.5" fill="#57606a" text-anchor="middle">40 ms</text>
+
+  <!-- bottleneck -->
+  <rect x="392" y="104" width="188" height="142" rx="6" fill="#fff8f0" stroke="#e5a76b"/>
+  <text x="486" y="126" font-size="13.5" font-weight="600" fill="#7d4e00" text-anchor="middle">bottleneck</text>
+  <text x="486" y="145" font-size="11.5" fill="#7d4e00" text-anchor="middle">2 Mbit/s, drop-tail</text>
+  <!-- queue cells -->
+  <g fill="#f6d9b8" stroke="#d69a5a">
+    <rect x="418" y="158" width="126" height="10" rx="2"/>
+    <rect x="418" y="171" width="126" height="10" rx="2"/>
+    <rect x="418" y="184" width="126" height="10" rx="2"/>
+    <rect x="418" y="197" width="126" height="10" rx="2"/>
+  </g>
+  <text x="486" y="224" font-size="11" fill="#8a5a1a" text-anchor="middle">a full buffer drops;</text>
+  <text x="486" y="238" font-size="11" fill="#8a5a1a" text-anchor="middle">it does not signal</text>
+
+  <!-- access link 2 -->
+  <rect x="612" y="128" width="112" height="70" rx="6" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="668" y="152" font-size="12.5" fill="#1f2328" text-anchor="middle">access link</text>
+  <text x="668" y="172" font-size="11.5" fill="#57606a" text-anchor="middle">50× bottleneck</text>
+  <text x="668" y="188" font-size="11.5" fill="#57606a" text-anchor="middle">40 ms</text>
+
+  <!-- receiver -->
+  <rect x="748" y="104" width="172" height="118" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
+  <text x="764" y="128" font-size="14.5" font-weight="600" fill="#1f2328">receiver</text>
+  <text x="764" y="150" font-size="12.5" fill="#57606a">rcv_nxt · read_seq</text>
+  <text x="764" y="169" font-size="12.5" fill="#57606a">out-of-order buffer</text>
+  <text x="764" y="188" font-size="12.5" fill="#57606a">window = right edge</text>
+  <text x="764" y="207" font-size="12.5" fill="#57606a">− rcv_nxt</text>
+
+  <!-- data path arrows -->
+  <defs>
+    <marker id="blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0969da"/>
+    </marker>
+    <marker id="orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#bc4c00"/>
+    </marker>
+  </defs>
+  <g stroke="#0969da" stroke-width="1.8" fill="none">
+    <line x1="216" y1="140" x2="244" y2="140" marker-end="url(#blue)"/>
+    <line x1="360" y1="140" x2="388" y2="140" marker-end="url(#blue)"/>
+    <line x1="580" y1="140" x2="608" y2="140" marker-end="url(#blue)"/>
+    <line x1="724" y1="140" x2="744" y2="140" marker-end="url(#blue)"/>
+  </g>
+  <text x="232" y="96" font-size="12" fill="#0969da" text-anchor="middle">data</text>
+
+  <!-- ack path -->
+  <path d="M 748 248 L 748 268 L 40 268 L 40 248" stroke="#bc4c00" stroke-width="1.8" fill="none" marker-end="url(#orange)"/>
+  <text x="400" y="288" font-size="12" fill="#bc4c00" text-anchor="middle">ACKs return through the same path — each one opens the window by the bytes it acknowledges</text>
+
+  <!-- the ledger -->
+  <rect x="40" y="308" width="880" height="66" rx="6" fill="#f2f8f4" stroke="#9ecfae"/>
+  <text x="58" y="332" font-size="13.5" font-weight="600" fill="#1a7f37">the ledger</text>
+  <text x="58" y="352" font-size="12.5" fill="#2b5f3d">every byte handed to the application is compared with the source at the segment that delivered it —</text>
+  <text x="58" y="368" font-size="12.5" fill="#2b5f3d">a repeat, a skip or a reorder fails there, not at the end of the run.</text>
+
+  <!-- layers -->
+  <text x="40" y="418" font-size="13.5" font-weight="600" fill="#1f2328">the stack — each layer only looks down</text>
+  <g font-size="12" text-anchor="middle">
+    <rect x="40" y="434" width="106" height="40" rx="5" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="93" y="459" fill="#1f2328">seq</text>
+    <rect x="166" y="434" width="106" height="40" rx="5" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="219" y="459" fill="#1f2328">packet</text>
+    <rect x="292" y="434" width="106" height="40" rx="5" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="345" y="459" fill="#1f2328">link</text>
+    <rect x="418" y="434" width="106" height="40" rx="5" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="471" y="459" fill="#1f2328">cc</text>
+    <rect x="544" y="434" width="106" height="40" rx="5" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="597" y="459" fill="#1f2328">endpoint</text>
+    <rect x="670" y="434" width="106" height="40" rx="5" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="723" y="459" fill="#1f2328">sim</text>
+    <rect x="796" y="434" width="124" height="40" rx="5" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="858" y="459" fill="#1f2328">experiments</text>
+  </g>
+  <g stroke="#8c959f" stroke-width="1.4" marker-end="url(#blue)">
+    <line x1="148" y1="454" x2="162" y2="454"/>
+    <line x1="274" y1="454" x2="288" y2="454"/>
+    <line x1="400" y1="454" x2="414" y2="454"/>
+    <line x1="526" y1="454" x2="540" y2="454"/>
+    <line x1="652" y1="454" x2="666" y2="454"/>
+    <line x1="778" y1="454" x2="792" y2="454"/>
+  </g>
+
+  <text x="40" y="512" font-size="12" fill="#57606a">congestion control never sees a packet: it is a state machine over (acked bytes, RTT, loss), which is why it can be tested with a scripted list of ACKs.</text>
+  <text x="40" y="532" font-size="12" fill="#57606a">the simulator never sees a congestion window: it moves opaque segments and checks the bytes.  the two meet only in endpoint.py.</text>
+</svg>
